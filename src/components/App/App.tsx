@@ -21,13 +21,14 @@ const App: React.FC = () => {
     queryKey: ['movies', query, page],
     queryFn: () => fetchMovies({ query, page }),
     enabled: !!query,
+
+    placeholderData: previousData => previousData,
   });
 
   const { data, isLoading, isError } = queryResult;
   const movies = useMemo(() => data?.results ?? [], [data]);
   const totalPages = data?.total_pages ?? 0;
 
-  // Показуємо повідомлення "No movies found..." лише після того, як користувач фактично шукав
   useEffect(() => {
     if (!hasSearched) return;
     if (data && data.results.length === 0) {
